@@ -69,7 +69,9 @@
   .banner{position:relative;overflow:hidden;background:linear-gradient(90deg,#0a3a32,#0e4d42 55%,#0a3a32);color:#fff;text-align:center;padding:14px 16px;font-size:.95rem;font-weight:600}
   .banner p{position:relative;z-index:2;margin:0}
   .banner strong{color:#f2b13c}
-  .banner .countdown{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:2px 10px;margin-left:8px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .banner .countdown{display:inline-block;background:#f2b13c;color:#0a3a32;border:1px solid #f2b13c;border-radius:8px;padding:3px 10px;margin-left:8px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .banner a{color:#f2b13c;font-weight:700;text-decoration:underline;text-underline-offset:2px}
+  .banner a:hover{color:#fff}
   .banner .snow{position:absolute;inset:0;pointer-events:none;z-index:1}
   .banner .flake{position:absolute;top:-24px;color:#fff;line-height:1;animation-name:snowfall;animation-timing-function:linear;animation-iteration-count:infinite}
   @keyframes snowfall{to{transform:translateY(220px) rotate(200deg)}}
@@ -186,7 +188,7 @@
 
 <div class="banner" id="xmas-banner">
   <div class="snow" aria-hidden="true"></div>
-  <p>Christmas ordering closes <strong>Friday, Dec 11</strong> — shop personalized gifts before they're gone. <span class="countdown" id="countdown"></span></p>
+  <p>Christmas ordering closes <strong>Friday, Dec 11</strong> — <a href="https://www.dimbrightideas.com/christmas-gift-guide">shop personalized gifts</a> before they're gone. <span class="countdown" id="countdown"></span></p>
 </div>
 
 <!-- ============ HERO ============ -->
