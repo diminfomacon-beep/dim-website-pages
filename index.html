@@ -17,9 +17,13 @@
   .kicker{color:var(--amber);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.8rem;margin:0}
   h1{font-family:"DM Serif Display",Georgia,serif;color:var(--teal);font-size:2rem;margin:6px 0 4px}
   .sub{color:var(--muted);margin:0 0 18px}
-  nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 28px}
-  nav a{display:inline-block;padding:8px 16px;border-radius:999px;background:var(--teal-soft);color:var(--teal);font-weight:700;text-decoration:none;font-size:.92rem}
-  nav a:hover{background:var(--teal);color:#fff}
+  /* tabs */
+  .tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 28px}
+  .tab-btn{padding:10px 20px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--teal);font-weight:700;cursor:pointer;font-size:.95rem;font-family:inherit}
+  .tab-btn:hover{background:var(--teal-soft)}
+  .tab-btn.active{background:var(--teal);color:#fff;border-color:var(--teal)}
+  .tab-panel{display:none}
+  .tab-panel.active{display:block}
   section{margin-bottom:36px}
   h2{font-family:"DM Serif Display",Georgia,serif;color:var(--teal);font-size:1.45rem;margin:0 0 4px}
   .sec-note{color:var(--muted);margin:0 0 16px;font-size:.95rem}
@@ -70,15 +74,16 @@
   <h1>DIM Workflow</h1>
   <p class="sub">How things work, step by step.</p>
 </header>
-<nav>
-  <a href="#qr-offer">QR &mdash; What we offer</a>
-  <a href="#qr-flow">QR &mdash; How an order flows</a>
-  <a href="#forms">Forms &mdash; Where requests go</a>
-  <a href="#find">Finding the details</a>
-</nav>
 
-<!-- ============ QR OFFER ============ -->
-<section id="qr-offer">
+<div class="tabs" role="tablist">
+  <button class="tab-btn active" onclick="showTab('tab-qr', this)">QR Gift Experience</button>
+  <button class="tab-btn" onclick="showTab('tab-forms', this)">Forms &amp; Requests</button>
+</div>
+
+<!-- ============ TAB: QR GIFT EXPERIENCE ============ -->
+<div class="tab-panel active" id="tab-qr">
+
+<section>
   <h2>QR Gift Experience &mdash; What we offer</h2>
   <p class="sec-note">A QR code on a gift. Scan it, and a personal message plays &mdash; video, voice, photos, or a letter.</p>
   <div class="tiers">
@@ -123,8 +128,7 @@
   </div>
 </section>
 
-<!-- ============ QR FLOW ============ -->
-<section id="qr-flow">
+<section>
   <h2>QR Gift Experience &mdash; How an order flows</h2>
   <p class="sec-note">From the customer picking an experience to the recipient scanning the code.</p>
   <div class="flow">
@@ -147,8 +151,12 @@
   <div class="note-bar"><b>Remember:</b> Ready in 3&ndash;5 business days after content arrives &middot; 1 light revision included &middot; Hosting: 12 mo (Essential) / 24 mo (Signature) / 5 yr (Legacy) &middot; Renewal $12/yr, manual &mdash; offered before expiry, never automatic.</div>
 </section>
 
-<!-- ============ FORMS ============ -->
-<section id="forms">
+</div><!-- /tab-qr -->
+
+<!-- ============ TAB: FORMS & REQUESTS ============ -->
+<div class="tab-panel" id="tab-forms">
+
+<section>
   <h2>Forms &mdash; Where requests go</h2>
   <p class="sec-note">Every form on the site saves to the database, emails you, and sends a phone alert.</p>
   <div class="form-grid">
@@ -161,8 +169,7 @@
   </div>
 </section>
 
-<!-- ============ FIND DETAILS ============ -->
-<section id="find">
+<section>
   <h2>Finding the details</h2>
   <p class="sec-note">The emails all look the same and carry no details. Use this instead.</p>
   <div class="flow">
@@ -179,10 +186,21 @@
   </div>
 </section>
 
+</div><!-- /tab-forms -->
+
 <footer>
   <p>More workflows coming &mdash; this guide grows as we add each part of the business.<br>D.I.M. Bright Ideas LLC &middot; Internal training guide</p>
 </footer>
 
 </div>
+<script>
+function showTab(id, btn){
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
 </body>
 </html>
