@@ -1,473 +1,188 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="color-scheme" content="light" />
-<link rel="icon" href="data:," />
-<title>D.I.M. Bright Ideas LLC — Bright Ideas Start Here</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workflow Guide | D.I.M. Bright Ideas</title>
 <style>
   :root{
-    --bg:#fffefb;
-    --surface:#fff6e6;
-    --surface-2:#fef0cd;
-    --card:#ffffff;
-    --ink:#1b2a25;
-    --muted:#54665e;
-    --faint:#7c8d85;
-    --teal:#0e4d42;
-    --teal-ink:#0a3a32;
-    --teal-soft:#e3efe9;
-    --amber:#b45309;
-    --amber-bright:#d97706;
-    --amber-bg:#fef3c7;
-    --brown:#7f5539;
-    --line:#e9ddc9;
-    --line-strong:#d9c8a8;
-    --radius:18px;
-    --radius-sm:12px;
-    --shadow:0 10px 30px rgba(27,42,37,.08), 0 2px 8px rgba(27,42,37,.06);
-    --shadow-lg:0 20px 44px rgba(27,42,37,.12);
+    --bg:#fffefb; --card:#ffffff; --ink:#1b2a25; --muted:#54665e; --faint:#7c8d85;
+    --teal:#0e4d42; --teal-soft:#e3efe9; --amber:#b45309; --amber-bg:#fef3c7;
+    --gold:#c9a227; --line:#e9ddc9; --radius:16px;
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
-  body{
-    margin:0;background:var(--bg);color:var(--ink);
-    font-family:"DM Sans", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-    font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;
-  }
-  img{max-width:100%;display:block}
-  a{color:var(--teal)}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
-  h1,h2,h3{font-family:"DM Serif Display", Georgia, serif;font-weight:400;line-height:1.12;letter-spacing:.01em;margin:0}
-  h2{font-size:clamp(1.7rem, 3.4vw, 2.35rem)}
-  h3{font-size:1.35rem}
-  p{margin:0}
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
-    min-height:48px;padding:.7rem 1.25rem;border-radius:999px;border:1.5px solid transparent;
-    font:inherit;font-weight:700;font-size:.98rem;line-height:1.2;text-decoration:none;cursor:pointer;text-align:center;
-    transition:transform .15s ease, background .15s ease, border-color .15s ease;
-  }
-  .btn:active{transform:scale(.98)}
-  .btn-primary{background:var(--teal);color:#fff}
-  .btn-primary:hover{filter:brightness(1.08)}
-  .btn-amber{background:var(--amber-bright);color:#fff}
-  .btn-amber:hover{filter:brightness(1.05)}
-  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
-  .btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
-  .btn-light{background:#fff;color:var(--teal-ink)}
-  .btn-light:hover{filter:brightness(.96)}
-  .btn-outline-light{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
-  .btn-outline-light:hover{border-color:#fff}
-
-  /* ---------- Christmas banner ---------- */
-  .banner{position:relative;overflow:hidden;background:linear-gradient(90deg,#0a3a32,#0e4d42 55%,#0a3a32);color:#fff;text-align:center;padding:14px 16px;font-size:.95rem;font-weight:600}
-  .banner p{position:relative;z-index:2;margin:0}
-  .banner strong{color:#f2b13c}
-  .banner .countdown{display:inline-block;background:#f2b13c;color:#0a3a32;border:1px solid #f2b13c;border-radius:8px;padding:3px 10px;margin-left:8px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .banner a{color:#f2b13c;font-weight:700;text-decoration:underline;text-underline-offset:2px}
-  .banner a:hover{color:#fff}
-  .banner .snow{position:absolute;inset:0;pointer-events:none;z-index:1}
-  .banner .flake{position:absolute;top:-24px;color:#fff;line-height:1;animation-name:snowfall;animation-timing-function:linear;animation-iteration-count:infinite}
-  @keyframes snowfall{to{transform:translateY(220px) rotate(200deg)}}
-  @media (prefers-reduced-motion: reduce){ .banner .flake{animation:none;display:none} }
-
-  /* ---------- Hero ---------- */
-  .hero{padding:40px 0 10px}
-  .hero-grid{display:grid;gap:28px;align-items:center}
-  @media (min-width:900px){ .hero-grid{grid-template-columns:1.05fr .95fr;gap:44px} }
-  .eyebrow{letter-spacing:.18em;text-transform:uppercase;font-size:.78rem;font-weight:700;color:var(--teal);margin:0 0 14px}
-  .hero h1{font-size:clamp(2.15rem, 5.2vw, 3.4rem);margin-bottom:16px}
-  .hero h1 em{font-style:normal;color:var(--amber);box-shadow:inset 0 -0.42em 0 var(--amber-bg)}
-  .hero .lede{font-size:1.13rem;color:var(--muted);max-width:34rem;margin-bottom:22px}
-  .hero .lede strong{color:var(--ink)}
-  .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
-  .cta-row .btn{flex:1 1 auto}
-  @media (min-width:560px){ .cta-row .btn{flex:0 1 auto} }
-  .facts{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:.93rem;font-weight:600}
-  .facts li{list-style:none;display:flex;align-items:center;gap:7px}
-  .facts ul{margin:0;padding:0;display:contents}
-  .dot{width:7px;height:7px;border-radius:50%;background:var(--amber-bright);flex:none}
-  .hero-stage{border-radius:24px;border:1px solid var(--line);box-shadow:var(--shadow-lg);background:var(--surface);padding:8px}
-  .hero-stage img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:16px;background:#fff}
-  .hero-caption{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin-top:14px}
-  .hero-caption p{font-size:.95rem;color:var(--muted)}
-  .hero-caption strong{color:var(--ink)}
-  .hero-caption .tag{flex:none;font-size:.78rem;font-weight:900;letter-spacing:.04em;background:var(--amber-bg);color:var(--amber);border:1px solid var(--line-strong);padding:4px 9px;border-radius:999px;margin-top:2px}
-
-  /* ---------- Sections ---------- */
-  section{padding:44px 0 6px}
-  .sec-head{max-width:42rem;margin-bottom:22px}
-  .sec-head h2{margin-bottom:8px}
-  .sec-head p{color:var(--muted);font-size:1.02rem}
-  .sec-head .kicker{letter-spacing:.18em;text-transform:uppercase;font-size:.78rem;font-weight:700;color:var(--teal);margin:0 0 10px}
-
-  /* ---------- Product grid ---------- */
-  .products{display:grid;gap:20px}
-  @media (min-width:640px){ .products{grid-template-columns:repeat(2,1fr)} }
-  @media (min-width:960px){ .products{grid-template-columns:repeat(3,1fr)} }
-  .product{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
-  .product img{width:100%;aspect-ratio:1/1;object-fit:cover;background:#fff}
-  .product-body{padding:18px 20px 20px;display:flex;flex-direction:column;flex:1}
-  .product-body .cat{font-size:.76rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin:0 0 6px}
-  .product-body h3{margin:0 0 6px}
-  .product-body p{color:var(--muted);font-size:.95rem;margin:0 0 14px}
-  .product-foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:10px}
-  .product-foot .price{font-family:"DM Serif Display", Georgia, serif;font-size:1.25rem;color:var(--ink)}
-  .product-foot .price small{font-family:"DM Sans", sans-serif;font-size:.8rem;color:var(--faint);font-weight:600}
-  .product-foot a{font-weight:700;font-size:.95rem;text-decoration:none;color:var(--teal)}
-  .product-foot a:hover{text-decoration:underline}
-  .grid-note{color:var(--muted);font-size:.95rem;margin-top:18px}
-  .grid-note a{font-weight:700}
-
-  /* ---------- Dark feature panel (QR) ---------- */
-  .feature-dark{background:var(--teal-ink);color:#f3eee2;border-radius:24px;padding:38px 30px;box-shadow:var(--shadow-lg)}
-  .feature-dark h2{color:#fff}
-  .feature-dark h2 em{font-style:italic;color:#f2b13c}
-  .feature-dark p{color:#cfe0d8}
-  .feature-dark .kicker{color:#f2b13c}
-  .feature-dark .cta-row{margin:22px 0 0}
-  .feature-dark .facts{color:#cfe0d8}
-  .feature-dark .facts .dot{background:#f2b13c}
-
-  /* ---------- Two-col cards (gift planning) ---------- */
-  .duo{display:grid;gap:20px}
-  @media (min-width:820px){ .duo{grid-template-columns:1fr 1fr} }
-  .duo-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow)}
-  .duo-card .fee{font-family:"DM Serif Display", Georgia, serif;font-size:1.6rem;color:var(--brown);margin:0 0 4px}
-  .duo-card h3{margin:0 0 8px}
-  .duo-card p{color:var(--muted);font-size:.97rem;margin:0 0 16px}
-  .duo-card ul{margin:0 0 18px;padding-left:18px;color:var(--muted);font-size:.95rem;display:grid;gap:6px}
-  .duo-card ul strong{color:var(--ink);font-weight:600}
-
-  /* ---------- Packages ---------- */
-  .packages{display:grid;gap:20px}
-  @media (min-width:900px){ .packages{grid-template-columns:repeat(3,1fr);align-items:stretch} }
-  .pkg{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);display:flex;flex-direction:column}
-  .pkg.featured{border-color:var(--teal);box-shadow:var(--shadow-lg)}
-  .pkg .from{font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:0 0 4px}
-  .pkg .amount{font-family:"DM Serif Display", Georgia, serif;font-size:2rem;color:var(--teal);margin:0 0 2px}
-  .pkg .per{color:var(--muted);font-size:.92rem;margin:0 0 10px}
-  .pkg h3{margin:0 0 8px}
-  .pkg p{color:var(--muted);font-size:.95rem;margin:0 0 16px}
-  .pkg ul{margin:0 0 18px;padding-left:18px;color:var(--muted);font-size:.95rem;display:grid;gap:6px}
-  .pkg .btn{margin-top:auto}
-
-  /* ---------- Steps ---------- */
-  .steps{display:grid;gap:20px}
-  @media (min-width:820px){ .steps{grid-template-columns:repeat(3,1fr)} }
-  .step{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
-  .step .num{font-family:"DM Serif Display", Georgia, serif;font-size:1.9rem;color:var(--amber);display:block;margin-bottom:6px}
-  .step h3{margin:0 0 8px}
-  .step p{color:var(--muted);font-size:.95rem;margin:0}
-  .good-to-know{margin-top:22px;background:var(--teal-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;color:var(--teal-ink);font-size:.97rem}
-  .good-to-know strong{color:var(--teal-ink)}
-
-  /* ---------- Final CTA ---------- */
-  .final{text-align:center;padding:56px 0 64px}
-  .final h2{font-size:clamp(2rem, 5vw, 3rem);margin-bottom:12px}
-  .final h2 em{font-style:italic;color:var(--amber)}
-  .final p{color:var(--muted);max-width:560px;margin:0 auto 26px}
-  .final .cta-row{justify-content:center}
-  .final .contact{margin-top:26px;color:var(--muted);font-size:.95rem}
-  .final .contact a{font-weight:700;text-decoration:none}
-  .final .contact a:hover{text-decoration:underline}
-
-  @media (max-width:640px){
-    .feature-dark{padding:28px 22px}
-    section{padding:36px 0 4px}
-  }
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
+  .wrap{max-width:880px;margin:0 auto;padding:28px 18px 60px}
+  header{text-align:center;margin-bottom:8px}
+  .kicker{color:var(--amber);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.8rem;margin:0}
+  h1{font-family:"DM Serif Display",Georgia,serif;color:var(--teal);font-size:2rem;margin:6px 0 4px}
+  .sub{color:var(--muted);margin:0 0 18px}
+  nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 28px}
+  nav a{display:inline-block;padding:8px 16px;border-radius:999px;background:var(--teal-soft);color:var(--teal);font-weight:700;text-decoration:none;font-size:.92rem}
+  nav a:hover{background:var(--teal);color:#fff}
+  section{margin-bottom:36px}
+  h2{font-family:"DM Serif Display",Georgia,serif;color:var(--teal);font-size:1.45rem;margin:0 0 4px}
+  .sec-note{color:var(--muted);margin:0 0 16px;font-size:.95rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px}
+  /* tiers */
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media (max-width:640px){.tiers{grid-template-columns:1fr}}
+  .tier{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+  .tier h3{margin:0 0 2px;font-size:1.05rem;color:var(--teal)}
+  .tier .host{color:var(--faint);font-size:.85rem;margin:0 0 10px}
+  .tier ul{margin:0;padding-left:18px}
+  .tier li{margin-bottom:6px}
+  .tier li b{color:var(--teal)}
+  .pill{display:inline-block;background:var(--amber-bg);color:var(--amber);font-weight:700;font-size:.85rem;border-radius:999px;padding:2px 10px;margin-top:10px}
+  /* extras */
+  .extras{display:flex;flex-wrap:wrap;gap:8px}
+  .extras span{background:var(--teal-soft);color:var(--teal);border-radius:999px;padding:6px 12px;font-size:.9rem;font-weight:600}
+  /* flow */
+  .flow{display:flex;flex-direction:column;align-items:stretch;max-width:560px;margin:0 auto}
+  .step{display:flex;gap:14px;align-items:flex-start}
+  .num{flex:0 0 34px;height:34px;border-radius:50%;background:var(--teal);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:1rem;margin-top:2px}
+  .step-body{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;flex:1}
+  .step-body b{color:var(--teal)}
+  .step-body .small{color:var(--muted);font-size:.9rem}
+  .arrow{text-align:center;color:var(--gold);font-size:1.4rem;line-height:1.1;margin:2px 0 2px 17px}
+  .note-bar{background:var(--amber-bg);border-radius:12px;padding:12px 16px;font-size:.92rem;margin-top:14px}
+  .note-bar b{color:var(--amber)}
+  /* forms table */
+  .form-grid{display:grid;grid-template-columns:1fr;gap:10px}
+  .form-row{display:grid;grid-template-columns:1.1fr 1.2fr 1.4fr;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+  @media (max-width:640px){.form-row{grid-template-columns:1fr}}
+  .form-row .f-name{font-weight:700;color:var(--teal)}
+  .form-row code{background:var(--teal-soft);color:var(--teal);border-radius:6px;padding:2px 8px;font-size:.88rem}
+  .form-row .f-get{color:var(--muted);font-size:.92rem}
+  /* find details */
+  .db-link{display:inline-block;background:var(--teal);color:#fff;font-weight:700;text-decoration:none;border-radius:10px;padding:12px 20px;margin-top:6px}
+  .db-link:hover{opacity:.92}
+  .lists{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .lists code{background:var(--teal-soft);color:var(--teal);border-radius:8px;padding:6px 12px;font-size:.92rem}
+  footer{border-top:1px solid var(--line);padding-top:16px;color:var(--faint);font-size:.88rem;text-align:center}
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<div class="banner" id="xmas-banner">
-  <div class="snow" aria-hidden="true"></div>
-  <p>Christmas ordering closes <strong>Friday, Dec 11</strong> — <a target="_blank" rel="noopener" href="https://www.dimbrightideas.com/christmas-gift-guide">shop personalized gifts</a> before they're gone. <span class="countdown" id="countdown"></span></p>
-</div>
-
-<!-- ============ HERO ============ -->
-<header class="hero">
-  <div class="wrap">
-    <div class="hero-grid">
-      <div>
-        <p class="eyebrow">D.I.M. Bright Ideas LLC · Made to order in Georgia</p>
-        <h1>Bright Ideas <em>Start Here</em></h1>
-        <p class="lede">Personalized gifts made to order — tumblers, T-shirts, mugs, tote bags, keepsakes and more, each one made for <strong>the person receiving it</strong>.</p>
-        <div class="cta-row">
-          <a target="_blank" rel="noopener" class="btn btn-primary" href="https://www.dimbrightideas.com/catalog">Shop the Catalog</a>
-          <a target="_blank" rel="noopener" class="btn btn-amber" href="https://www.dimbrightideas.com/quote-request">Get a Quote</a>
-        </div>
-        <ul class="facts">
-          <li><span class="dot"></span>Made to order</li>
-          <li><span class="dot"></span>Personalized for one person</li>
-          <li><span class="dot"></span>Ready-to-ship 2–7 business days</li>
-          <li><span class="dot"></span>Custom 5–14 business days</li>
-        </ul>
-      </div>
-      <div>
-        <div class="hero-stage">
-          <img src="https://diminfomacon-beep.github.io/Mothers_Day/catalog/photos/20oz%20Skinny%20Tumbler%20-%20Ombre.png" alt="20oz Skinny Tumbler in Ombre, personalized" />
-        </div>
-        <div class="hero-caption">
-          <span class="tag">Bestseller</span>
-          <p><strong>20oz Skinny Tumbler — Ombre.</strong> From $17. Your name, your colors, your design — made to order.</p>
-        </div>
-      </div>
-    </div>
-  </div>
+<header>
+  <p class="kicker">D.I.M. Bright Ideas</p>
+  <h1>Workflow Guide</h1>
+  <p class="sub">How things work, step by step.</p>
 </header>
+<nav>
+  <a href="#qr-offer">QR &mdash; What we offer</a>
+  <a href="#qr-flow">QR &mdash; How an order flows</a>
+  <a href="#forms">Forms &mdash; Where requests go</a>
+  <a href="#find">Finding the details</a>
+</nav>
 
-<!-- ============ FEATURED PRODUCTS ============ -->
-<section>
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="kicker">Made to order, made personal</p>
-      <h2>Start with a favorite</h2>
-      <p>Every piece is personalized by hand in Georgia. Pick a favorite, choose your design, and we'll make it yours.</p>
+<!-- ============ QR OFFER ============ -->
+<section id="qr-offer">
+  <h2>QR Gift Experience &mdash; What we offer</h2>
+  <p class="sec-note">A QR code on a gift. Scan it, and a personal message plays &mdash; video, voice, photos, or a letter.</p>
+  <div class="tiers">
+    <div class="tier">
+      <h3>Essential</h3>
+      <p class="host">Hosted 12 months</p>
+      <ul>
+        <li><b>Letter $25</b> &mdash; up to 500 words</li>
+        <li><b>Voice $35</b> &mdash; up to 3 min</li>
+        <li><b>Video $45</b> &mdash; up to 3 min</li>
+        <li><b>Slideshow $55</b> &mdash; up to 20 photos</li>
+      </ul>
     </div>
-    <div class="products">
-      <article class="product">
-        <img src="https://diminfomacon-beep.github.io/Mothers_Day/catalog/photos/20oz%20Skinny%20Tumbler%20-%20Ombre.png" alt="20oz Skinny Tumbler in Ombre" loading="lazy" />
-        <div class="product-body">
-          <p class="cat">Drinkware</p>
-          <h3>20oz Skinny Tumbler — Ombre</h3>
-          <p>Our most-loved tumbler, in soft ombre shades, with your monogram or full design.</p>
-          <div class="product-foot"><span class="price"><small>From</small> $17</span><a target="_blank" rel="noopener" href="https://www.dimbrightideas.com/catalog">Shop →</a></div>
-        </div>
-      </article>
-      <article class="product">
-        <img src="https://diminfomacon-beep.github.io/Mothers_Day/catalog/photos/Glass%20Mug.png" alt="Glass Mug with lid" loading="lazy" />
-        <div class="product-body">
-          <p class="cat">Drinkware</p>
-          <h3>Glass Mug</h3>
-          <p>Clear, ceramic, insulated or stemless — a morning mug made personal.</p>
-          <div class="product-foot"><span class="price"><small>From</small> $13</span><a target="_blank" rel="noopener" href="https://www.dimbrightideas.com/catalog">Shop →</a></div>
-        </div>
-      </article>
-      <article class="product">
-        <img src="https://diminfomacon-beep.github.io/Mothers_Day/catalog/photos/40oz%20Traveler%20Tumbler.png" alt="40oz Traveler Tumbler" loading="lazy" />
-        <div class="product-body">
-          <p class="cat">Drinkware</p>
-          <h3>40oz Traveler Tumbler</h3>
-          <p>Big, bold, and built for all-day sipping — monogram or full design.</p>
-          <div class="product-foot"><span class="price"><small>From</small> $32</span><a target="_blank" rel="noopener" href="https://www.dimbrightideas.com/catalog">Shop →</a></div>
-        </div>
-      </article>
-      <article class="product">
-        <img src="https://diminfomacon-beep.github.io/Mothers_Day/catalog/photos/Medium%20Tote%20Bag.png" alt="Medium Tote Bag" loading="lazy" />
-        <div class="product-body">
-          <p class="cat">Bags</p>
-          <h3>Medium Tote Bag</h3>
-          <p>Print or vinyl, one side or two — a tote that carries your message.</p>
-          <div class="product-foot"><span class="price"><small>From</small> $10</span><a target="_blank" rel="noopener" href="https://www.dimbrightideas.com/catalog">Shop →</a></div>
-        </div>
-      </article>
-      <article class="product">
-        <img src="https://diminfomacon-beep.github.io/Mothers_Day/catalog/photos/Memory%20Photo%20Blanket.png" alt="Memory Photo Blanket" loading="lazy" />
-        <div class="product-body">
-          <p class="cat">Keepsakes</p>
-          <h3>Memory Photo Blanket</h3>
-          <p>Your photographs, printed on a soft blanket — a keepsake to wrap up in.</p>
-          <div class="product-foot"><span class="price"><small>From</small> $60</span><a target="_blank" rel="noopener" href="https://www.dimbrightideas.com/catalog">Shop →</a></div>
-        </div>
-      </article>
-      <article class="product">
-        <img src="https://diminfomacon-beep.github.io/Mothers_Day/catalog/photos/Aluminum%20Business%20Cards.png" alt="Aluminum Business Cards" loading="lazy" />
-        <div class="product-body">
-          <p class="cat">Business</p>
-          <h3>Aluminum Business Cards</h3>
-          <p>Shine that gets remembered — aluminum cards for your business.</p>
-          <div class="product-foot"><span class="price"><small>From</small> $15</span><a target="_blank" rel="noopener" href="https://www.dimbrightideas.com/catalog">Shop →</a></div>
-        </div>
-      </article>
+    <div class="tier">
+      <h3>Signature</h3>
+      <p class="host">Hosted 24 months</p>
+      <ul>
+        <li><b>Video $75</b> &mdash; up to 5 min + 150-word dedication</li>
+        <li><b>Slideshow $85</b> &mdash; up to 40 photos, 10 captions + 150-word dedication</li>
+      </ul>
     </div>
-    <p class="grid-note">Looking for something else? The full catalog has tumblers, T-shirts, mugs, journals, games, keepsakes and more — <a target="_blank" rel="noopener" href="https://www.dimbrightideas.com/catalog">browse the whole catalog</a>.</p>
-  </div>
-</section>
-
-<!-- ============ QR GIFT EXPERIENCE ============ -->
-<section>
-  <div class="wrap">
-    <div class="feature-dark">
-      <p class="kicker">The QR Gift Experience</p>
-      <h2>Turn a simple gift into a <em>lasting memory</em></h2>
-      <p style="max-width:36rem;margin-top:10px">A beautiful physical gift, paired with a private page only its recipient can open — your words, your voice, your video, your photographs — revealed with a single scan.</p>
-      <div class="cta-row">
-        <a target="_blank" rel="noopener" class="btn btn-light" href="https://www.dimbrightideas.com/qr-gift-experience">See the Experiences</a>
-        <a class="btn btn-outline-light" href="https://sites.google.com/view/15e642/home" target="_blank" rel="noopener">See a Sample</a>
-      </div>
-      <ul class="facts" style="margin-top:22px">
-        <li><span class="dot"></span>Three collections, ten experiences — from $25</li>
-        <li><span class="dot"></span>20% courtesy savings with any physical D.I.M. gift</li>
-        <li><span class="dot"></span>Ready in 3–5 business days</li>
+    <div class="tier">
+      <h3>Vault</h3>
+      <p class="host">Group messages &mdash; one organiser</p>
+      <ul>
+        <li><b>Family $95</b> &mdash; up to 5 people, 7 min</li>
+        <li><b>Tribute $149</b> &mdash; up to 12 people, 15 min</li>
+        <li><b>Celebration $189</b> &mdash; up to 15 people, 20 min, 30 photos, featured video 3 min</li>
+        <li><b>Legacy $299</b> &mdash; up to 25 people, 30 min, 50 photos, download archive, 5 years hosting</li>
       </ul>
     </div>
   </div>
-</section>
-
-<!-- ============ GIFT PLANNING ============ -->
-<section>
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="kicker">Gift Planning</p>
-      <h2>Not sure what to give? We'll plan it with you</h2>
-      <p>Tell us about your person and the occasion — we'll help you choose, design, and deliver the right gift.</p>
-    </div>
-    <div class="duo">
-      <div class="duo-card">
-        <p class="fee">$20 planning fee</p>
-        <h3>Individual Gift Planning</h3>
-        <p>One thoughtful gift for one special person — birthdays, Mother's Day, graduations, just because.</p>
-        <ul>
-          <li><strong>Fee applied</strong> toward your final purchase</li>
-          <li>Personalized design, made to order</li>
-          <li>Ready-to-ship 2–7 days · Custom 5–14 days</li>
-        </ul>
-        <a target="_blank" rel="noopener" class="btn btn-primary" href="https://www.dimbrightideas.com/gift-planning">Plan My Gift</a>
-      </div>
-      <div class="duo-card">
-        <p class="fee">$50 design deposit</p>
-        <h3>Corporate &amp; Bulk Orders</h3>
-        <p>Branded gifts for teams, clients, and events — business cards, totes, tumblers, appreciation gifts.</p>
-        <ul>
-          <li><strong>Deposit applied</strong> to your total order value</li>
-          <li>Custom brand layouts &amp; vector rendering</li>
-          <li>Inventory holds for your event date</li>
-        </ul>
-        <a target="_blank" rel="noopener" class="btn btn-primary" href="https://www.dimbrightideas.com/gift-planning">Plan a Bulk Order</a>
-      </div>
+  <div class="card">
+    <b>One Vault contributor =</b> 1 video (up to 60 sec) <i>or</i> 1 voice (up to 60 sec) <i>or</i> 1 written message (up to 200 words).
+    <br><span class="pill">20% off any experience + any physical gift</span>
+  </div>
+  <div class="card">
+    <b>Extras</b>
+    <div class="extras" style="margin-top:10px">
+      <span>+1 min &mdash; $10</span><span>+250 words &mdash; $10</span><span>+1 contributor &mdash; $12</span><span>+10 photos &mdash; $10</span><span>Password &mdash; $12</span><span>Future-date reveal &mdash; $12</span><span>Custom QR &mdash; $15</span><span>Extra revision &mdash; $15</span><span>Keepsake card &mdash; $8</span><span>Acrylic stand &mdash; $20</span><span>Rush 48h &mdash; $35</span><span>Renewal &mdash; $12/yr</span>
     </div>
   </div>
 </section>
 
-<!-- ============ BUSINESS PACKAGES ============ -->
-<section>
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="kicker">For businesses &amp; teams</p>
-      <h2>Branded gifts, ready to give</h2>
-      <p>Simple packages for businesses and organizations — priced per set or per person, designed with your brand.</p>
-    </div>
-    <div class="packages">
-      <div class="pkg">
-        <p class="from">From*</p>
-        <p class="amount">$40<span style="font-size:1.1rem"> / set</span></p>
-        <h3>Brand Starter</h3>
-        <p>Everything a small business needs to look polished — cards, a tote, and a tumbler.</p>
-        <ul>
-          <li>25 aluminum business cards</li>
-          <li>Medium tote bag</li>
-          <li>20oz Skinny Tumbler</li>
-        </ul>
-        <a target="_blank" rel="noopener" class="btn btn-ghost" href="https://www.dimbrightideas.com/quote-request">Get a Quote</a>
-      </div>
-      <div class="pkg featured">
-        <p class="from">From*</p>
-        <p class="amount">$27<span style="font-size:1.1rem"> / person</span></p>
-        <h3>Team Appreciation</h3>
-        <p>A thoughtful thank-you for every person on your team — personalized, not generic.</p>
-        <ul>
-          <li>Personalized tumbler or mug</li>
-          <li>Custom design with your logo</li>
-          <li>Ready for your next team moment</li>
-        </ul>
-        <a target="_blank" rel="noopener" class="btn btn-primary" href="https://www.dimbrightideas.com/quote-request">Get a Quote</a>
-      </div>
-      <div class="pkg">
-        <p class="from">From*</p>
-        <p class="amount">$43</p>
-        <h3>Event / Holiday Gift Box</h3>
-        <p>A ready-to-give box for holidays, events, and celebrations — curated and boxed.</p>
-        <ul>
-          <li>Curated personalized items</li>
-          <li>Gift-ready packaging</li>
-          <li>Great for clients &amp; events</li>
-        </ul>
-        <a target="_blank" rel="noopener" class="btn btn-ghost" href="https://www.dimbrightideas.com/quote-request">Get a Quote</a>
-      </div>
-    </div>
-    <p class="grid-note">* Final pricing depends on the size of your order — your exact total is confirmed in your quote.</p>
+<!-- ============ QR FLOW ============ -->
+<section id="qr-flow">
+  <h2>QR Gift Experience &mdash; How an order flows</h2>
+  <p class="sec-note">From the customer picking an experience to the recipient scanning the code.</p>
+  <div class="flow">
+    <div class="step"><div class="num">1</div><div class="step-body"><b>Customer builds a quote</b><br><span class="small">On the QR page &mdash; picks an experience, adds extras, sees the total.</span></div></div>
+    <div class="arrow">&#8595;</div>
+    <div class="step"><div class="num">2</div><div class="step-body"><b>Customer sends the quote form</b><br><span class="small">Name, email, phone. No email app opens &mdash; it sends right from the page.</span></div></div>
+    <div class="arrow">&#8595;</div>
+    <div class="step"><div class="num">3</div><div class="step-body"><b>You get notified</b><br><span class="small">Phone alert: &ldquo;New QR Quote Request!&rdquo; + an email + saved to the database.</span></div></div>
+    <div class="arrow">&#8595;</div>
+    <div class="step"><div class="num">4</div><div class="step-body"><b>You reply with the quote &amp; confirm payment</b><br><span class="small">Confirm the experience, extras, and total. Take payment.</span></div></div>
+    <div class="arrow">&#8595;</div>
+    <div class="step"><div class="num">5</div><div class="step-body"><b>Customer sends their content</b><br><span class="small">Their video, voice, photos, or letter words.</span></div></div>
+    <div class="arrow">&#8595;</div>
+    <div class="step"><div class="num">6</div><div class="step-body"><b>You build the experience page + make the QR code</b><br><span class="small">The page holds their message. The QR code links to it.</span></div></div>
+    <div class="arrow">&#8595;</div>
+    <div class="step"><div class="num">7</div><div class="step-body"><b>You deliver the QR</b><br><span class="small">On a keepsake card, an acrylic stand, or digitally.</span></div></div>
+    <div class="arrow">&#8595;</div>
+    <div class="step"><div class="num">8</div><div class="step-body"><b>Recipient scans &rarr; the message plays</b><br><span class="small">They can keep it and replay it.</span></div></div>
+  </div>
+  <div class="note-bar"><b>Remember:</b> Ready in 3&ndash;5 business days after content arrives &middot; 1 light revision included &middot; Hosting: 12 mo (Essential) / 24 mo (Signature) / 5 yr (Legacy) &middot; Renewal $12/yr, manual &mdash; offered before expiry, never automatic.</div>
+</section>
+
+<!-- ============ FORMS ============ -->
+<section id="forms">
+  <h2>Forms &mdash; Where requests go</h2>
+  <p class="sec-note">Every form on the site saves to the database, emails you, and sends a phone alert.</p>
+  <div class="form-grid">
+    <div class="form-row"><span class="f-name">Gift Planning &mdash; Individual</span><span>Saves to <code>gift_submissions</code></span><span class="f-get">Email + phone alert</span></div>
+    <div class="form-row"><span class="f-name">Gift Planning &mdash; Corporate</span><span>Saves to <code>bulk_submissions</code></span><span class="f-get">Email + phone alert</span></div>
+    <div class="form-row"><span class="f-name">Quote Request</span><span>Saves to <code>quote_requests</code></span><span class="f-get">Email + phone alert</span></div>
+    <div class="form-row"><span class="f-name">QR Quote</span><span>Saves to <code>qr_quote_requests</code></span><span class="f-get">Email + phone alert</span></div>
+    <div class="form-row"><span class="f-name">Design Studio</span><span>Backed up to private repo</span><span class="f-get">Detailed email + phone alert &ldquo;New Design Studio Submission!&rdquo;</span></div>
+    <div class="form-row"><span class="f-name">Contact Us</span><span>No form &mdash; WhatsApp or SMS</span><span class="f-get">Message arrives on your phone</span></div>
   </div>
 </section>
 
-<!-- ============ HOW IT WORKS ============ -->
-<section>
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="kicker">How it works</p>
-      <h2>Three easy steps</h2>
-    </div>
-    <div class="steps">
-      <div class="step">
-        <span class="num">1.</span>
-        <h3>Choose your gift</h3>
-        <p>Browse the catalog or start with gift planning — pick the piece that fits your person and your occasion.</p>
-      </div>
-      <div class="step">
-        <span class="num">2.</span>
-        <h3>Make it personal</h3>
-        <p>Add a name, a monogram, a photo, or a full design. Send your logo or idea — we'll make it yours.</p>
-      </div>
-      <div class="step">
-        <span class="num">3.</span>
-        <h3>We make it, you gift it</h3>
-        <p>Each piece is made to order in Georgia, checked by hand, and sent on its way to someone's favorite day.</p>
-      </div>
-    </div>
-    <div class="good-to-know">
-      <strong>Good to know:</strong> ready-to-ship items arrive in 2–7 business days; custom orders take 5–14 business days. Non-custom items may be returned within 14 days of delivery. Custom and personalized items are final sale — made just for you.
-    </div>
+<!-- ============ FIND DETAILS ============ -->
+<section id="find">
+  <h2>Finding the details</h2>
+  <p class="sec-note">The emails all look the same and carry no details. Use this instead.</p>
+  <div class="flow">
+    <div class="step"><div class="num">1</div><div class="step-body"><b>Phone alert tells you the type</b><br><span class="small">e.g. &ldquo;New QR Quote Request!&rdquo; &mdash; that&rsquo;s which form it came from.</span></div></div>
+    <div class="arrow">&#8595;</div>
+    <div class="step"><div class="num">2</div><div class="step-body"><b>Skip the email</b><br><span class="small">It&rsquo;s generic &mdash; no details inside. Don&rsquo;t rely on it.</span></div></div>
+    <div class="arrow">&#8595;</div>
+    <div class="step"><div class="num">3</div><div class="step-body"><b>Open the database</b><br><span class="small">Pick the list that matches the form. Newest request is at the top.</span><br>
+      <a class="db-link" href="https://console.firebase.google.com/project/gift-planning-form/firestore" target="_blank" rel="noopener">Open the database &rarr;</a>
+      <div class="lists"><code>gift_submissions</code><code>bulk_submissions</code><code>quote_requests</code><code>qr_quote_requests</code></div>
+    </div></div>
+    <div class="arrow">&#8595;</div>
+    <div class="step"><div class="num">4</div><div class="step-body"><b>Read the details there</b><br><span class="small">Name, email, phone, and everything they filled in.</span></div></div>
   </div>
 </section>
 
-<!-- ============ FINAL CTA ============ -->
-<div class="final">
-  <div class="wrap">
-    <h2>Give them something<br/><em>they will return to.</em></h2>
-    <p>Tell us about your person and the moment you want to mark — we'll help you choose the gift that fits it beautifully.</p>
-    <div class="cta-row">
-      <a target="_blank" rel="noopener" class="btn btn-primary" href="https://www.dimbrightideas.com/catalog">Shop the Catalog</a>
-      <a target="_blank" rel="noopener" class="btn btn-amber" href="https://www.dimbrightideas.com/gift-planning">Start with Gift Planning</a>
-    </div>
-  </div>
+<footer>
+  <p>More workflows coming &mdash; this guide grows as we add each part of the business.<br>D.I.M. Bright Ideas LLC &middot; Internal training guide</p>
+</footer>
+
 </div>
-
-<script>
-(function(){
-  /* Falling snowflakes in the Christmas banner */
-  var banner=document.getElementById('xmas-banner');
-  var snow=banner.querySelector('.snow');
-  for(var i=0;i<28;i++){
-    var f=document.createElement('span');
-    f.className='flake'; f.textContent='❄';
-    f.style.left=(Math.random()*100)+'%';
-    f.style.fontSize=(10+Math.random()*12).toFixed(0)+'px';
-    f.style.animationDuration=(7+Math.random()*8).toFixed(1)+'s';
-    f.style.animationDelay=(-Math.random()*14).toFixed(1)+'s';
-    f.style.opacity=(0.5+Math.random()*0.5).toFixed(2);
-    snow.appendChild(f);
-  }
-  /* Countdown to the Christmas order deadline */
-  var target=new Date('2026-12-11T23:59:59-05:00').getTime();
-  var el=document.getElementById('countdown');
-  function tick(){
-    var diff=target-Date.now();
-    if(diff<=0){ el.textContent='Christmas ordering has closed — thank you!'; return; }
-    var d=Math.floor(diff/86400000);
-    var h=Math.floor(diff%86400000/3600000);
-    var m=Math.floor(diff%3600000/60000);
-    var s=Math.floor(diff%60000/1000);
-    el.textContent=d+'d '+String(h).padStart(2,'0')+'h '+String(m).padStart(2,'0')+'m '+String(s).padStart(2,'0')+'s left';
-  }
-  tick(); setInterval(tick,1000);
-})();
-</script>
-
 </body>
 </html>
