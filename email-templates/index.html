@@ -123,11 +123,38 @@
   .svc li{margin-bottom:4px}
   .svc li b{color:var(--teal)}
   .svc .svc-price{font-weight:800;font-size:1.1rem;margin-top:10px}
+  /* order tracker */
+  .ord-form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media (max-width:640px){.ord-form{grid-template-columns:1fr}}
+  .ord-form label{font-size:.85rem;font-weight:700;color:var(--teal);display:block;margin-bottom:3px}
+  .ord-form input,.ord-form select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;font-family:inherit;font-size:.95rem;background:#fff;color:var(--ink)}
+  .ord-form .full{grid-column:1/-1}
+  .btn{display:inline-block;background:var(--teal);color:#fff;font-weight:800;border:0;border-radius:10px;padding:12px 20px;cursor:pointer;font-size:.95rem;font-family:inherit}
+  .btn.ghost{background:#fff;color:var(--teal);border:1.5px solid var(--teal)}
+  .btn.small{padding:8px 12px;font-size:.85rem}
+  .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+  .ord-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px}
+  .ord-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .ord-name{font-weight:800;color:var(--teal)}
+  .ord-status{margin-left:auto;font-size:.8rem;font-weight:800;border-radius:999px;padding:4px 10px}
+  .st-Received{background:#eef2ff;color:#3730a3}
+  .st-Making{background:var(--amber-bg);color:var(--amber)}
+  .st-Ready{background:#dcfce7;color:#166534}
+  .st-Delivered{background:#e5e7eb;color:#374151}
+  .ord-detail{color:var(--muted);font-size:.92rem;margin-top:4px}
+  .ord-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  /* checklist */
+  .ck-item{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;cursor:pointer}
+  .ck-item input{width:20px;height:20px;margin-top:2px;accent-color:var(--teal);flex:0 0 20px}
+  .ck-item b{color:var(--teal)}
+  .ck-item .ck-sub{color:var(--muted);font-size:.9rem}
+  .ck-item.done{opacity:.6}
+  .ck-item.done b{text-decoration:line-through}
   footer{border-top:1px solid var(--line);padding-top:16px;color:var(--faint);font-size:.88rem;text-align:center;margin-top:30px}
 </style>
 </head>
 <body>
-<div class="site-head"><div class="bar"><a class="brand" href="../index.html"><span class="brand-logo logo-bg"></span> D.I.M. Internal Hub</a><button class="nav-toggle" type="button" aria-label="Open menu" onclick="toggleMenu(this)">&#9776;</button></div><div class="menu" id="siteMenu"><a href="../index.html">Home<span>Start here</span></a><a href="../workflow/">Workflow<span>How things work, step by step</span></a><a href="../catalog/">Master Catalog<span>Every product & service, with prices</span></a><a href="../request-templates/">Request Templates<span>Quotes & replies to send customers</span></a><a href="../email-templates/" class="active">Email Templates<span>Ready-to-send emails</span></a><a href="../resources/">Resources<span>Links, prices & checklists</span></a></div></div>
+<div class="site-head"><div class="bar"><a class="brand" href="../index.html"><span class="brand-logo logo-bg"></span> D.I.M. Internal Hub</a><button class="nav-toggle" type="button" aria-label="Open menu" onclick="toggleMenu(this)">&#9776;</button></div><div class="menu" id="siteMenu"><a href="../index.html">Home<span>Start here</span></a><a href="../workflow/">Workflow<span>How things work, step by step</span></a><a href="../catalog/">Master Catalog<span>Every product & service, with prices</span></a><a href="../orders/">Order Tracker<span>What you owe, to who, and is it done?</span></a><a href="../request-templates/">Request Templates<span>Quotes & replies to send customers</span></a><a href="../email-templates/" class="active">Email Templates<span>Ready-to-send emails</span></a><a href="../social/">Social Captions<span>Ready-to-post Instagram & TikTok captions</span></a><a href="../checklist/">New Product Checklist<span>Adding a product? Don't miss a step</span></a><a href="../resources/">Resources<span>Links, prices & checklists</span></a></div></div>
 <div class="wrap">
 
 <header class="page">
@@ -242,6 +269,20 @@ Thank you!
 Dana
 D.I.M. Bright Ideas
 (478) 382-0150 | info@dimbrightideas.com</div><button class="copy-btn" onclick="copyTpl(this, 'et-thanks')">Copy template</button></div>
+<div class="tpl"><div class="tpl-head"><span class="tpl-logo logo-bg"></span><b>Ask for a Google Review — Email</b><span class="tag">Email</span></div><div class="tpl-body" id="et-review">Subject: We would love your review!
+
+Hi <span class="ph">[Name]</span>,
+
+Thank you so much for your order! We hope <span class="ph">[you / they]</span> love <span class="ph">[it]</span>.
+
+If you have a moment, we would love it if you left us a Google review. It helps other people find us, and it means the world to a small business like ours.
+
+You can leave one here: <span class="ph">[Your Google review link]</span>
+
+Thank you again!
+Dana
+D.I.M. Bright Ideas
+(478) 382-0150 | info@dimbrightideas.com</div><button class="copy-btn" onclick="copyTpl(this, 'et-review')">Copy template</button></div>
 <div class="tpl"><div class="tpl-head"><span class="tpl-logo logo-bg"></span><b>Follow-Up — Email</b><span class="tag">Email</span></div><div class="tpl-body" id="et-followup">Subject: Just checking in
 
 Hi <span class="ph">[Name]</span>,
@@ -321,6 +362,125 @@ function setCat(cat, btn){
   btn.classList.add('active');
   filterCatalog();
 }
+/* ---- order tracker (localStorage, this device) ---- */
+var ORD_KEY='dim_orders_v1';
+function ordLoad(){ try{ return JSON.parse(localStorage.getItem(ORD_KEY)||'[]'); }catch(e){ return []; } }
+function ordSave(list){ localStorage.setItem(ORD_KEY, JSON.stringify(list)); }
+function ordStatusList(){ return ['Received','Making','Ready','Delivered']; }
+function ordAdd(ev){
+  ev.preventDefault();
+  var name=document.getElementById('oName').value.trim();
+  var item=document.getElementById('oItem').value.trim();
+  if(!name||!item){ alert('Add the customer name and what they ordered.'); return; }
+  var list=ordLoad();
+  list.push({id:Date.now(), name:name, item:item,
+    total:document.getElementById('oTotal').value.trim(),
+    due:document.getElementById('oDue').value,
+    notes:document.getElementById('oNotes').value.trim(),
+    status:'Received', created:new Date().toISOString().slice(0,10)});
+  ordSave(list);
+  document.getElementById('ordForm').reset();
+  ordRender();
+}
+function ordAdvance(id){
+  var list=ordLoad();
+  var o=list.find(function(x){ return x.id===id; });
+  if(!o) return;
+  var flow=ordStatusList();
+  var i=flow.indexOf(o.status);
+  o.status = flow[Math.min(i+1, flow.length-1)];
+  ordSave(list); ordRender();
+}
+function ordSetStatus(id, st){
+  var list=ordLoad();
+  var o=list.find(function(x){ return x.id===id; });
+  if(!o) return;
+  o.status=st; ordSave(list); ordRender();
+}
+function ordDelete(id){
+  if(!confirm('Remove this order?')) return;
+  ordSave(ordLoad().filter(function(x){ return x.id!==id; }));
+  ordRender();
+}
+function ordClearDone(){
+  if(!confirm('Remove all Delivered orders?')) return;
+  ordSave(ordLoad().filter(function(x){ return x.status!=='Delivered'; }));
+  ordRender();
+}
+function ordExport(){
+  var list=ordLoad();
+  if(!list.length){ alert('No orders to export yet.'); return; }
+  var rows=[['Customer','Order','Total','Date needed','Status','Notes']];
+  list.forEach(function(o){ rows.push([o.name,o.item,o.total||'',o.due||'',o.status,o.notes||'']); });
+  var csv=rows.map(function(r){ return r.map(function(c){ return '"'+String(c).replace(/"/g,'""')+'"'; }).join(','); }).join('
+');
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download='dim-orders.csv'; a.click();
+}
+function ordRender(){
+  var list=ordLoad();
+  var filter=(document.querySelector('input[name="ordFilter"]:checked')||{}).value || 'Active';
+  var wrap=document.getElementById('ordList');
+  if(!wrap) return;
+  list.sort(function(a,b){ return (a.due||'9999') < (b.due||'9999') ? -1 : 1; });
+  var active=list.filter(function(o){ return o.status!=='Delivered'; }).length;
+  document.getElementById('ordCount').textContent = active + ' active order' + (active===1?'':'s') + ' · ' + list.length + ' total';
+  var shown=list.filter(function(o){
+    if(filter==='All') return true;
+    if(filter==='Active') return o.status!=='Delivered';
+    return o.status===filter;
+  });
+  if(!shown.length){ wrap.innerHTML='<p class="sec-note">No orders here yet. Add your first order above.</p>'; return; }
+  wrap.innerHTML = shown.map(function(o){
+    var next = o.status==='Received' ? 'Start making it' : o.status==='Making' ? 'Mark ready' : o.status==='Ready' ? 'Mark delivered' : '';
+    var det = [o.item, o.total ? ('Total: '+o.total) : '', o.due ? ('Needed by: '+o.due) : '', o.notes].filter(Boolean).join(' · ');
+    return '<div class="ord-card"><div class="ord-top"><span class="ord-name">'+escHtml(o.name)+'</span>'
+      + '<span class="ord-status st-'+o.status+'">'+o.status+'</span></div>'
+      + '<div class="ord-detail">'+escHtml(det)+'</div>'
+      + '<div class="ord-actions">'
+      + (next ? '<button class="btn small" onclick="ordAdvance('+o.id+')">'+next+'</button>' : '')
+      + '<select onchange="ordSetStatus('+o.id+', this.value)" aria-label="Set status">'
+      + ordStatusList().map(function(s){ return '<option'+(s===o.status?' selected':'')+'>'+s+'</option>'; }).join('')
+      + '</select>'
+      + '<button class="btn small ghost" onclick="ordDelete('+o.id+')">Remove</button>'
+      + '</div></div>';
+  }).join('');
+}
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+/* ---- checklist (localStorage, this device) ---- */
+var CK_KEY='dim_checklist_v1';
+function ckToggle(el){
+  var items=Array.prototype.slice.call(document.querySelectorAll('.ck-item'));
+  var state=items.map(function(it){ return it.querySelector('input').checked; });
+  localStorage.setItem(CK_KEY, JSON.stringify(state));
+  el.classList.toggle('done', el.querySelector('input').checked);
+  ckCount();
+}
+function ckLoad(){
+  try{
+    var state=JSON.parse(localStorage.getItem(CK_KEY)||'[]');
+    var items=document.querySelectorAll('.ck-item');
+    items.forEach(function(it,i){
+      if(state[i]){ it.querySelector('input').checked=true; it.classList.add('done'); }
+    });
+  }catch(e){}
+  ckCount();
+}
+function ckCount(){
+  var items=document.querySelectorAll('.ck-item');
+  var done=0;
+  items.forEach(function(it){ if(it.querySelector('input').checked) done++; });
+  var el=document.getElementById('ckCount');
+  if(el) el.textContent = done + ' of ' + items.length + ' done';
+}
+function ckReset(){
+  if(!confirm('Uncheck everything and start over?')) return;
+  localStorage.removeItem(CK_KEY);
+  document.querySelectorAll('.ck-item').forEach(function(it){ it.querySelector('input').checked=false; it.classList.remove('done'); });
+  ckCount();
+}
+document.addEventListener('DOMContentLoaded', function(){ ordRender(); ckLoad(); });
 </script>
 
 </body>
