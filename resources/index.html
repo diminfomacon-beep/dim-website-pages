@@ -95,11 +95,39 @@
   .res-grid ul{margin:6px 0 0;padding-left:18px}
   .res-grid li{margin-bottom:5px}
   .res-grid a{color:var(--teal);font-weight:600}
+  /* master catalog */
+  .search-box{width:100%;padding:13px 16px;border:1.5px solid var(--line);border-radius:12px;font-size:1rem;font-family:inherit;background:#fff;color:var(--ink);margin-bottom:12px}
+  .search-box:focus{outline:2px solid var(--teal);border-color:var(--teal)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+  .chip{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--teal);font-weight:700;cursor:pointer;font-size:.88rem;font-family:inherit}
+  .chip:hover{background:var(--teal-soft)}
+  .chip.active{background:var(--teal);color:#fff;border-color:var(--teal)}
+  .cat-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+  .cat-row select{padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;font-family:inherit;font-size:.92rem;background:#fff;color:var(--ink)}
+  .count{color:var(--muted);font-size:.9rem}
+  .prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media (max-width:640px){.prod-grid{grid-template-columns:repeat(2,1fr)}}
+  .prod{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .prod img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#f3efe6}
+  .prod .no-photo{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:#f3efe6;color:var(--faint);font-size:.85rem;font-weight:700}
+  .prod-body{padding:12px 14px}
+  .prod-name{font-weight:700;color:var(--teal);font-size:.95rem;line-height:1.3}
+  .prod-price{font-weight:800;font-size:1.05rem;margin-top:4px}
+  .prod-meta{color:var(--faint);font-size:.82rem;margin-top:2px}
+  .svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media (max-width:640px){.svc-grid{grid-template-columns:1fr}}
+  .svc{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+  .svc h3{margin:0 0 2px;color:var(--teal);font-size:1.05rem}
+  .svc .svc-sub{color:var(--faint);font-size:.85rem;margin:0 0 8px}
+  .svc ul{margin:0;padding-left:18px}
+  .svc li{margin-bottom:4px}
+  .svc li b{color:var(--teal)}
+  .svc .svc-price{font-weight:800;font-size:1.1rem;margin-top:10px}
   footer{border-top:1px solid var(--line);padding-top:16px;color:var(--faint);font-size:.88rem;text-align:center;margin-top:30px}
 </style>
 </head>
 <body>
-<div class="site-head"><div class="bar"><a class="brand" href="../index.html"><span class="brand-logo logo-bg"></span> D.I.M. Internal Hub</a><button class="nav-toggle" type="button" aria-label="Open menu" onclick="toggleMenu(this)">&#9776;</button></div><div class="menu" id="siteMenu"><a href="../index.html">Home<span>Start here</span></a><a href="../workflow/">Workflow<span>How things work, step by step</span></a><a href="../request-templates/">Request Templates<span>Quotes & replies to send customers</span></a><a href="../email-templates/">Email Templates<span>Ready-to-send emails</span></a><a href="../resources/" class="active">Resources<span>Links, prices & checklists</span></a></div></div>
+<div class="site-head"><div class="bar"><a class="brand" href="../index.html"><span class="brand-logo logo-bg"></span> D.I.M. Internal Hub</a><button class="nav-toggle" type="button" aria-label="Open menu" onclick="toggleMenu(this)">&#9776;</button></div><div class="menu" id="siteMenu"><a href="../index.html">Home<span>Start here</span></a><a href="../workflow/">Workflow<span>How things work, step by step</span></a><a href="../catalog/">Master Catalog<span>Every product & service, with prices</span></a><a href="../request-templates/">Request Templates<span>Quotes & replies to send customers</span></a><a href="../email-templates/">Email Templates<span>Ready-to-send emails</span></a><a href="../resources/" class="active">Resources<span>Links, prices & checklists</span></a></div></div>
 <div class="wrap">
 
 <header class="page">
@@ -172,6 +200,47 @@ function showTab(id, btn){
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
   window.scrollTo({top:0, behavior:'smooth'});
+}
+var activeCat='All';
+function filterCatalog(){
+  var q=(document.getElementById('catSearch').value||'').toLowerCase();
+  var sort=document.getElementById('catSort').value;
+  var cards=Array.prototype.slice.call(document.querySelectorAll('.prod'));
+  var shown=0;
+  cards.forEach(function(c){
+    var name=(c.getAttribute('data-name')||'').toLowerCase();
+    var cat=c.getAttribute('data-cat')||'';
+    var ok = (activeCat==='All'||cat===activeCat) && (!q || name.indexOf(q)>-1);
+    c.style.display = ok ? '' : 'none';
+    if(ok) shown++;
+  });
+  // sort visible cards
+  var grid=document.getElementById('prodGrid');
+  var visible=cards.filter(function(c){ return c.style.display!=='none'; });
+  visible.sort(function(a,b){
+    if(sort==='price-asc') return parseFloat(a.getAttribute('data-price'))-parseFloat(b.getAttribute('data-price'));
+    if(sort==='price-desc') return parseFloat(b.getAttribute('data-price'))-parseFloat(a.getAttribute('data-price'));
+    return (a.getAttribute('data-name')||'').localeCompare(b.getAttribute('data-name')||'');
+  });
+  visible.forEach(function(c){ grid.appendChild(c); });
+  document.getElementById('catCount').textContent='Showing '+shown+' of '+cards.length+' products';
+  // services
+  var svcs=Array.prototype.slice.call(document.querySelectorAll('.svc'));
+  var sShown=0;
+  svcs.forEach(function(s){
+    var t=(s.getAttribute('data-name')||'').toLowerCase();
+    var ok = !q || t.indexOf(q)>-1;
+    s.style.display = ok ? '' : 'none';
+    if(ok) sShown++;
+  });
+  var svcCount=document.getElementById('svcCount');
+  if(svcCount) svcCount.textContent='Showing '+sShown+' of '+svcs.length+' services';
+}
+function setCat(cat, btn){
+  activeCat=cat;
+  document.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('active'); });
+  btn.classList.add('active');
+  filterCatalog();
 }
 </script>
 
