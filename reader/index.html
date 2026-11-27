@@ -243,75 +243,127 @@ var RD_KEY='dim_request_list_v1';
 var currentParsed=null;   // {form, fields, title}
 var showHidden=false;
 
+/* ---- request reader (localStorage, this device) ---- */
+var RD_KEY='dim_request_list_v1';
+var currentParsed=null;   // {form, fields, title}
+var showHidden=false;
 function parseFirestoreDump(text) {
   text = (text || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
   var trimmed = text.trim();
   if (!trimmed) return { fields: [], warnings: ['Nothing pasted.'] };
+
+  // JSON fallback
   if (trimmed.charAt(0) === '{') {
     try {
       var obj = JSON.parse(trimmed);
       var fields = [];
       Object.keys(obj).forEach(function (k) { fields.push({ key: k, value: obj[k] }); });
       return { fields: fields, warnings: [] };
-    } catch (e) {}
+    } catch (e) { /* fall through to line parser */ }
   }
+
   var lines = text.split('\n');
   var fields = [];
   var warnings = [];
   var i = 0;
+
   function isTypeLine(s) { return /^\(\s*(string|number|boolean|array|timestamp|map|null|reference|geopoint)\s*\)$/i.test(s); }
   function typeOf(s) { var m = s.match(/^\(\s*(string|number|boolean|array|timestamp|map|null|reference|geopoint)\s*\)$/i); return m ? m[1].toLowerCase() : null; }
   function isFieldValueLine(s) { return /^[\w$]+\s*".*"\s*$/.test(s); }
   function isBareField(s) { return /^[\w$]+$/.test(s); }
+  function isIndexLine(s) { return /^\d+$/.test(s); }
+  function unquote(s) { var m = s.match(/^"([\s\S]*)"$/); return m ? m[1] : s; }
+  function consumeType() { if (i < lines.length && isTypeLine(lines[i].trim())) i++; }
+
   while (i < lines.length) {
     var line = lines[i].trim();
     i++;
     if (!line) continue;
-    if (isTypeLine(line)) continue;
+    if (isTypeLine(line)) continue; // stray type line, already consumed
+    if (/^database location:/i.test(line)) continue; // Firestore footer line
+
+    // fieldName"value"  (string on one line)
     var m = line.match(/^([\w$]+)\s*"([\s\S]*)"\s*$/);
     if (m) {
       fields.push({ key: m[1], value: m[2] });
-      if (i < lines.length && isTypeLine(lines[i].trim())) i++;
+      consumeType();
       continue;
     }
+
+    // bare field name -> the value follows on the next line(s)
     if (isBareField(line)) {
       var key = line;
-      var type = null;
-      if (i < lines.length && isTypeLine(lines[i].trim())) { type = typeOf(lines[i].trim()); i++; }
-      if (type === 'array') {
-        var items = [];
-        while (i < lines.length) {
-          var nxt = lines[i].trim();
-          if (!nxt) { i++; continue; }
-          if (isTypeLine(nxt) || isFieldValueLine(nxt) || isBareField(nxt)) break;
-          var im = nxt.match(/^"([\s\S]*)"$/);
-          items.push(im ? im[1] : nxt);
-          i++;
-        }
-        fields.push({ key: key, value: items });
-      } else if (type === 'number' || type === 'string' || type === 'timestamp' || type === 'boolean') {
-        var val = '';
-        if (i < lines.length) {
-          var vline = lines[i].trim();
-          if (vline && !isTypeLine(vline) && !isFieldValueLine(vline) && !isBareField(vline)) {
-            var vm = vline.match(/^"([\s\S]*)"$/);
-            val = vm ? vm[1] : vline;
+      // Case A: next line is a (type) line
+      if (i < lines.length && isTypeLine(lines[i].trim())) {
+        var type = typeOf(lines[i].trim());
+        i++;
+        if (type === 'array') {
+          var items = [];
+          while (i < lines.length) {
+            var nxt = lines[i].trim();
+            if (!nxt) { i++; continue; }
+            if (isTypeLine(nxt) || isFieldValueLine(nxt)) break;
+            // Indexed item: a bare number, then the value, then its (type)
+            if (isIndexLine(nxt)) {
+              i++;
+              if (i < lines.length) {
+                var vline = lines[i].trim();
+                if (vline && !isTypeLine(vline) && !isFieldValueLine(vline) && !isBareField(vline)) {
+                  items.push(unquote(vline));
+                  i++;
+                  consumeType();
+                  continue;
+                }
+              }
+              break;
+            }
+            if (isBareField(nxt)) break; // a new field name ends the array
+            // Plain item value (no index)
+            items.push(unquote(nxt));
             i++;
+            consumeType();
           }
+          fields.push({ key: key, value: items });
+        } else if (type === 'number' || type === 'string' || type === 'timestamp' || type === 'boolean') {
+          var val = '';
+          if (i < lines.length) {
+            var vline = lines[i].trim();
+            if (vline && !isTypeLine(vline) && !isFieldValueLine(vline) && !isBareField(vline)) {
+              val = unquote(vline);
+              i++;
+            }
+          }
+          fields.push({ key: key, value: type === 'number' ? (val === '' ? '' : Number(val)) : val });
+        } else if (type === 'null') {
+          fields.push({ key: key, value: '' });
+        } else {
+          fields.push({ key: key, value: '' });
         }
-        fields.push({ key: key, value: type === 'number' ? (val === '' ? '' : Number(val)) : val });
-      } else if (type === 'null') {
-        fields.push({ key: key, value: '' });
-      } else {
-        fields.push({ key: key, value: '' });
+        continue;
       }
+      // Case B: next line is the value itself (two-line string/number), then a (type) line
+      if (i < lines.length) {
+        var vline = lines[i].trim();
+        if (vline && !isTypeLine(vline) && !isFieldValueLine(vline) && !isBareField(vline)) {
+          fields.push({ key: key, value: unquote(vline) });
+          i++;
+          consumeType();
+          continue;
+        }
+      }
+      // Case C: no value seen — keep the field with an empty value
+      fields.push({ key: key, value: '' });
       continue;
     }
+
+    // Anything else we cannot interpret — keep it as a note, don't crash.
     warnings.push('Skipped a line I could not read: ' + line.slice(0, 60));
   }
+
   return { fields: fields, warnings: warnings };
 }
 
+// Friendly labels for known fields; anything else is humanized from camelCase.
 var FIELD_LABELS = {
   allottedBudget: 'Budget', celebratedOccasion: 'Occasion', chosenGiftStyles: 'Gift styles',
   cloudinaryPhotoLinks: 'Photos', customerEmail: 'Email', customerName: 'Customer name',
@@ -323,7 +375,8 @@ var FIELD_LABELS = {
   intendedEmotions: 'Feelings to capture', notableImportantDates: 'Important dates',
   preferredContact: 'Best way to reach them', productPreferences: 'Product types',
   recipientAgeRange: 'Recipient age', recipientName: 'Recipient name',
-  recipientNickname: 'Recipient nickname', specificNamesToInclude: 'Names to include',
+  recipientNickname: 'Recipient nickname', recipientRelationship: 'Recipient relationship',
+  specificNamesToInclude: 'Names to include',
   timestamp: 'Sent on', unforgettableMoment: 'Unforgettable moment',
   wantsQrCodeMedia: 'Add a QR gift?', whatMakesYouSmile: 'What makes them smile',
   companyName: 'Company name', contactName: 'Contact name', contactEmail: 'Contact email',
@@ -331,23 +384,29 @@ var FIELD_LABELS = {
   packageName: 'Package', package: 'Package', name: 'Name', email: 'Email', phone: 'Phone',
   message: 'Message', details: 'Details', experience: 'Experience', experienceType: 'Experience'
 };
+
 function humanize(key) {
   if (FIELD_LABELS[key]) return FIELD_LABELS[key];
   var words = key.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/_/g, ' ');
   return words.charAt(0).toUpperCase() + words.slice(1);
 }
+
+// Values that mean "customer skipped this" — hidden from the readable view.
 function isSkipped(v) {
   if (v === null || v === undefined) return true;
   if (Array.isArray(v)) return v.length === 0;
   var s = String(v).trim().toLowerCase();
   return s === '' || s === 'no' || s === 'n/a' || s === 'na' || s === 'none';
 }
+
 function prettyDate(v) {
   if (!v) return '';
   var s = String(v).trim();
   var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  // Date only (YYYY-MM-DD): format directly, no timezone shift.
   var dm = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
   if (dm) return months[Number(dm[2]) - 1] + ' ' + Number(dm[3]) + ', ' + dm[1];
+  // ISO timestamp -> "Jun 12, 2026" (+ local time when one is included)
   var d = new Date(s);
   if (!isNaN(d.getTime()) && /^\d{4}-\d{2}-\d{2}/.test(s)) {
     var out = months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
@@ -360,7 +419,10 @@ function prettyDate(v) {
   }
   return s;
 }
+
 function isUrl(v) { return /^https?:\/\/\S+$/i.test(String(v).trim()); }
+
+// Detect which form this is, from the fields present.
 function detectForm(fields) {
   var keys = {};
   fields.forEach(function (f) { keys[f.key] = true; });
@@ -370,14 +432,17 @@ function detectForm(fields) {
   if (keys.package || keys.packageName) return 'Quote Request';
   return 'Form request';
 }
+
+// Display order: most important first for Gift Planning; the rest in paste order.
 var ORDER = ['customerName', 'customerPhone', 'customerEmail', 'preferredContact',
-  'recipientName', 'recipientNickname', 'recipientAgeRange', 'celebratedOccasion',
+  'recipientName', 'recipientNickname', 'recipientRelationship', 'recipientAgeRange', 'celebratedOccasion',
   'deliveryDateNeeded', 'allottedBudget', 'productPreferences', 'chosenGiftStyles',
   'descriptiveThreeWords', 'favoriteColors', 'favoriteMemory', 'favoriteQuoteSaying',
   'freeTimeEnjoyment', 'heartfeltWishMessage', 'hobbiesAndInterests', 'insideJokeContext',
   'intendedEmotions', 'notableImportantDates', 'favoriteMediaAndActivities',
   'specificNamesToInclude', 'unforgettableMoment', 'whatMakesYouSmile',
   'wantsQrCodeMedia', 'cloudinaryPhotoLinks', 'timestamp'];
+
 function orderedFields(fields) {
   var byKey = {};
   fields.forEach(function (f) { byKey[f.key] = f; });
@@ -386,6 +451,8 @@ function orderedFields(fields) {
   fields.forEach(function (f) { if (byKey[f.key]) { out.push(f); delete byKey[f.key]; } });
   return out;
 }
+
+
 function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 function fieldValueHtml(f) {
@@ -556,6 +623,7 @@ function exportSavedCSV() {
   document.body.appendChild(a); a.click(); a.remove();
 }
 document.addEventListener('DOMContentLoaded', function(){ renderSaved(); });
+
 </script>
 
 </body>
