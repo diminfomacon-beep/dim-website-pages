@@ -159,6 +159,14 @@
   details.wx summary::after{content:" +";color:var(--gold);font-weight:800}
   details.wx[open] summary::after{content:" \2013"}
   details.wx table{margin-top:10px}
+
+  details.plat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 18px;margin-bottom:10px}
+  details.plat summary{cursor:pointer;font-weight:800;color:var(--teal);list-style:none}
+  details.plat summary::-webkit-details-marker{display:none}
+  details.plat summary::after{content:" +";color:var(--gold);font-weight:800}
+  details.plat[open] summary::after{content:" \2013"}
+  details.plat summary span{font-weight:400;color:var(--muted)}
+  details.plat ul{margin:10px 0 0}
 </style>
 </head>
 <body>
@@ -183,6 +191,7 @@
       <li><a href="https://docs.google.com/spreadsheets/d/1prGR7MNbp5MwnfMUmxD96BmvrHl-QKC-u90zQffflow" target="_blank" rel="noopener">Mothers Day (catalog)</a> &mdash; prices &amp; stock for the store</li>
       <li><a href="https://docs.google.com/spreadsheets/d/1YW_RRBezlQGcFgj5z8t8HScQWXDcbdmHjbBSsfHOKwI" target="_blank" rel="noopener">Price List</a> &mdash; products &amp; variations</li>
       <li><a href="https://docs.google.com/spreadsheets/d/1weijqCPCesAAoIiBahyoFxQPtD8Z-VJDCG83rbGAlnQ" target="_blank" rel="noopener">QR Renewal Tracker</a> &mdash; who is due to renew, and when</li>
+      <li><a href="https://docs.google.com/spreadsheets/d/1lMY5BMk_9b6P8dpKnKA5riQbql8BjDGS656vPKGQqNY" target="_blank" rel="noopener">Outreach Tracker</a> &mdash; the businesses you have contacted</li>
     </ul></div>
   <div class="card"><h3>Your store &amp; pages</h3>
     <ul>
@@ -227,7 +236,7 @@
       <tr><td style="text-align:left;padding:8px 10px">Aluminum Business Cards, 25 count (from $15)</td><td style="padding:8px">$13.50</td><td style="padding:8px">$12.75</td><td style="padding:8px">$12.00</td><td style="padding:8px">$10.50</td></tr>
     </table>
     </details>
-    <p style="margin:0 0 6px"><b>How it works</b></p>
+    <details class="wx"><summary>How it works</summary>
     <ul>
       <li><b>Count is per item, not per order.</b> 50 of the same tumbler gets the discount; 50 different items do not &mdash; making 50 of one thing is efficient, making 50 different things is not.</li>
       <li><b>Physical products only.</b> It does not apply to the Gift Planning fees ($20 / $50), QR Gift Experiences, or Design Studio.</li>
@@ -236,29 +245,30 @@
       <li><b>The $50 corporate design deposit still applies</b> on bulk corporate orders &mdash; it is a deposit, applied to the total.</li>
       <li><b>Big orders need more time.</b> For 50+ of one item, confirm the timeline in the quote &mdash; everything is made by hand, one person.</li>
       <li><b>Why it stops at 30%.</b> That is the most the numbers allow, even on the biggest orders &mdash; deeper than that would eat the margin on made-to-order work.</li>
-    </ul></div>
+    </ul>
+    </details></div>
 </div>
 <section class="platforms">
 <h2>Platforms</h2>
   <p class="sec-note">Everywhere the business lives, and what each one is for.</p>
   <div class="res-grid">
-  <div class="card"><h3>Firebase (Firestore)</h3><p>The database where every form request lands.</p><ul><li>Gift Planning requests &rarr; <b>gift_submissions</b>; corporate &rarr; <b>bulk_submissions</b></li><li>Quote Requests &rarr; <b>quote_requests</b>; QR quotes &rarr; <b>qr_quote_requests</b></li><li>The emails the forms send are generic &mdash; the full details live here</li><li>Use the <b>Request Reader</b> page to turn a pasted request into plain words</li><li><a href="https://console.firebase.google.com/project/gift-planning-form/firestore" target="_blank" rel="noopener">Open the database</a></li></ul></div>
-  <div class="card"><h3>Google Sheets</h3><p>The working sheets the store reads.</p><ul><li><b>Inventory</b> &mdash; what blanks you have on hand</li><li><b>Price List</b> &mdash; base prices for every product</li><li><b>Mothers Day</b> &mdash; catalog prices and stock the store reads live (New Buttons + Stock tabs)</li><li><b>QR Renewal Tracker</b> &mdash; the $12/year hosting renewals</li><li><b>Outreach Tracker</b> &mdash; the businesses you have contacted</li><li>Links to each sheet are in <b>Your sheets</b> above</li></ul></div>
-  <div class="card"><h3>Google Drive</h3><p>Files and photos.</p><ul><li>Business files, the Dimmi logo, and product photos</li><li>The Gmail signature logo comes from Drive</li><li>The old Contact Us form still lives here (nothing on the site submits it anymore)</li></ul></div>
-  <div class="card"><h3>Gmail</h3><p>info@dimbrightideas.com &mdash; the business email.</p><ul><li>Form submissions send a generic email here; the full details are in Firebase</li><li>Signature: D.I.M. Bright Ideas / dimbrightideas.com / (478) 382-0150, with the Dimmi logo</li></ul></div>
-  <div class="card"><h3>GitHub</h3><p>The website code and hosting (GitHub Pages).</p><ul><li><b>dimbrightideas</b> &mdash; the live store (dimbrightideas.com)</li><li><b>dim-website-pages</b> &mdash; this hub</li><li><b>Mothers_Day</b> &mdash; the order buttons</li><li><b>client-page</b>, <b>gift-planning</b>, <b>qr-gift-experience</b>, <b>new-design-studio</b></li><li><b>design-submissions</b> &mdash; private; customer designs from the Design Studio</li><li>All public repos on the free plan &mdash; a push goes live by itself</li></ul></div>
-  <div class="card"><h3>PayPal</h3><p>Checkout &mdash; and the inventory updater.</p><ul><li>Customers pay here (PayPal, or card as a guest)</li><li>When an order comes in, a webhook automatically lowers the count in the Inventory sheet</li><li>Never change the checkout code without testing &mdash; it is what takes the money</li></ul></div>
-  <div class="card"><h3>Cloudinary</h3><p>Customer photo uploads.</p><ul><li>When a customer uploads a photo (catalog button, Christmas ornament / photo panel, Design Studio), it goes here</li><li>Replaced imgbb on Nov 25 &mdash; imgbb kept blocking uploads from Google&rsquo;s servers</li><li>Do not use imgbb anymore; the old key is unused</li></ul></div>
-  <div class="card"><h3>Pushover</h3><p>Phone alerts.</p><ul><li>Every new order and form request sends an alert to your phone, naming the form type</li><li>Runs through the &ldquo;D.I.M. Website Alerts&rdquo; app, via a Google Apps Script relay</li><li>The old Pushover apps were deleted; the old keys are gone</li></ul></div>
-  <div class="card"><h3>EmailJS</h3><p>Design Studio emails.</p><ul><li>Sends you the email when a customer submits a design in the Design Studio</li></ul></div>
-  <div class="card"><h3>Google Apps Script</h3><p>The behind-the-scenes helpers.</p><ul><li><b>Pushover relay</b> &mdash; sends the phone alerts</li><li><b>Pixabay relay</b> &mdash; keeps the Pixabay key private</li><li><b>Inventory Decrement</b> &mdash; listens to PayPal and lowers stock on a sale</li><li><b>Design Studio backup</b> &mdash; saves customer designs to the private repo</li><li><b>Shared form script</b> &mdash; handles the form submissions</li></ul></div>
-  <div class="card"><h3>Canva</h3><p>Print catalog and designs.</p><ul><li>The 14-page print catalog is edited in Canva &mdash; the Canva design is the master</li><li>The trifold brochure design lives here too</li><li>Page names match product names, so downloads save under the product name</li></ul></div>
-  <div class="card"><h3>Google Sites</h3><p>The old store (retired) and the QR Gift Vault page.</p><ul><li>The old store is retired &mdash; the live store is on GitHub Pages now</li><li>The QR Gift Vault sample page still lives here</li></ul></div>
-  <div class="card"><h3>WhatsApp Business</h3><p>Customer messages &mdash; (478) 382-0150.</p><ul><li>This number belongs <b>only</b> in WhatsApp Business, not the personal app</li><li>The Contact Us page links here, and the SMS button uses the same number</li></ul></div>
-  <div class="card"><h3>Instagram &amp; TikTok</h3><p>Social posts &mdash; @dimbrightideas.</p><ul><li>Ready-to-post captions are in the hub&rsquo;s <b>Social Captions</b> page</li><li>Posts use your real product photos, never AI-looking ones</li></ul></div>
-  <div class="card"><h3>Elfsight</h3><p>The Google Reviews widget.</p><ul><li>Shows your Google reviews on the store&rsquo;s Gallery &amp; Reviews page</li></ul></div>
-  <div class="card"><h3>Google Business Profile</h3><p>The Google listing and reviews.</p><ul><li>Your Google listing; customers leave reviews here</li><li>The review link uses your verified Place ID &mdash; the Ask-for-a-Review templates in the hub carry this link</li></ul></div>
-  <div class="card"><h3>Pixabay</h3><p>Graphics search inside Design Studio.</p><ul><li>Customers search for graphics and clipart in the Design Studio</li><li>It goes through a relay so the key stays private (key rotated Nov 26)</li></ul></div>
+  <details class="plat"><summary><b>Firebase (Firestore)</b> &mdash; <span>The database where every form request lands.</span></summary><ul><li>Gift Planning requests &rarr; <b>gift_submissions</b>; corporate &rarr; <b>bulk_submissions</b></li><li>Quote Requests &rarr; <b>quote_requests</b>; QR quotes &rarr; <b>qr_quote_requests</b></li><li>The emails the forms send are generic &mdash; the full details live here</li><li>Use the <b>Request Reader</b> page to turn a pasted request into plain words</li><li><a href="https://console.firebase.google.com/project/gift-planning-form/firestore" target="_blank" rel="noopener">Open the database</a></li></ul></details>
+  <details class="plat"><summary><b>Google Sheets</b> &mdash; <span>The working sheets the store reads.</span></summary><ul><li><b>Inventory</b> &mdash; what blanks you have on hand</li><li><b>Price List</b> &mdash; base prices for every product</li><li><b>Mothers Day</b> &mdash; catalog prices and stock the store reads live (New Buttons + Stock tabs)</li><li><b>QR Renewal Tracker</b> &mdash; the $12/year hosting renewals</li><li><b>Outreach Tracker</b> &mdash; the businesses you have contacted</li><li>Links to each sheet are in <b>Your sheets</b> above</li></ul></details>
+  <details class="plat"><summary><b>Google Drive</b> &mdash; <span>Files and photos.</span></summary><ul><li>Business files, the Dimmi logo, and product photos</li><li>The Gmail signature logo comes from Drive</li><li>The old Contact Us form still lives here (nothing on the site submits it anymore)</li></ul></details>
+  <details class="plat"><summary><b>Gmail</b> &mdash; <span>info@dimbrightideas.com &mdash; the business email.</span></summary><ul><li>Form submissions send a generic email here; the full details are in Firebase</li><li>Signature: D.I.M. Bright Ideas / dimbrightideas.com / (478) 382-0150, with the Dimmi logo</li></ul></details>
+  <details class="plat"><summary><b>GitHub</b> &mdash; <span>The website code and hosting (GitHub Pages).</span></summary><ul><li><b>dimbrightideas</b> &mdash; the live store (dimbrightideas.com)</li><li><b>dim-website-pages</b> &mdash; this hub</li><li><b>Mothers_Day</b> &mdash; the order buttons</li><li><b>client-page</b>, <b>gift-planning</b>, <b>qr-gift-experience</b>, <b>new-design-studio</b></li><li><b>design-submissions</b> &mdash; private; customer designs from the Design Studio</li><li>All public repos on the free plan &mdash; a push goes live by itself</li></ul></details>
+  <details class="plat"><summary><b>PayPal</b> &mdash; <span>Checkout &mdash; and the inventory updater.</span></summary><ul><li>Customers pay here (PayPal, or card as a guest)</li><li>When an order comes in, a webhook automatically lowers the count in the Inventory sheet</li><li>Never change the checkout code without testing &mdash; it is what takes the money</li></ul></details>
+  <details class="plat"><summary><b>Cloudinary</b> &mdash; <span>Customer photo uploads.</span></summary><ul><li>When a customer uploads a photo (catalog button, Christmas ornament / photo panel, Design Studio), it goes here</li><li>Replaced imgbb on Nov 25 &mdash; imgbb kept blocking uploads from Google&rsquo;s servers</li><li>Do not use imgbb anymore; the old key is unused</li></ul></details>
+  <details class="plat"><summary><b>Pushover</b> &mdash; <span>Phone alerts.</span></summary><ul><li>Every new order and form request sends an alert to your phone, naming the form type</li><li>Runs through the &ldquo;D.I.M. Website Alerts&rdquo; app, via a Google Apps Script relay</li><li>The old Pushover apps were deleted; the old keys are gone</li></ul></details>
+  <details class="plat"><summary><b>EmailJS</b> &mdash; <span>Design Studio emails.</span></summary><ul><li>Sends you the email when a customer submits a design in the Design Studio</li></ul></details>
+  <details class="plat"><summary><b>Google Apps Script</b> &mdash; <span>The behind-the-scenes helpers.</span></summary><ul><li><b>Pushover relay</b> &mdash; sends the phone alerts</li><li><b>Pixabay relay</b> &mdash; keeps the Pixabay key private</li><li><b>Inventory Decrement</b> &mdash; listens to PayPal and lowers stock on a sale</li><li><b>Design Studio backup</b> &mdash; saves customer designs to the private repo</li><li><b>Shared form script</b> &mdash; handles the form submissions</li></ul></details>
+  <details class="plat"><summary><b>Canva</b> &mdash; <span>Print catalog and designs.</span></summary><ul><li>The 14-page print catalog is edited in Canva &mdash; the Canva design is the master</li><li>The trifold brochure design lives here too</li><li>Page names match product names, so downloads save under the product name</li></ul></details>
+  <details class="plat"><summary><b>Google Sites</b> &mdash; <span>The old store (retired) and the QR Gift Vault page.</span></summary><ul><li>The old store is retired &mdash; the live store is on GitHub Pages now</li><li>The QR Gift Vault sample page still lives here</li></ul></details>
+  <details class="plat"><summary><b>WhatsApp Business</b> &mdash; <span>Customer messages &mdash; (478) 382-0150.</span></summary><ul><li>This number belongs <b>only</b> in WhatsApp Business, not the personal app</li><li>The Contact Us page links here, and the SMS button uses the same number</li></ul></details>
+  <details class="plat"><summary><b>Instagram &amp; TikTok</b> &mdash; <span>Social posts &mdash; @dimbrightideas.</span></summary><ul><li>Ready-to-post captions are in the hub&rsquo;s <b>Social Captions</b> page</li><li>Posts use your real product photos, never AI-looking ones</li></ul></details>
+  <details class="plat"><summary><b>Elfsight</b> &mdash; <span>The Google Reviews widget.</span></summary><ul><li>Shows your Google reviews on the store&rsquo;s Gallery &amp; Reviews page</li></ul></details>
+  <details class="plat"><summary><b>Google Business Profile</b> &mdash; <span>The Google listing and reviews.</span></summary><ul><li>Your Google listing; customers leave reviews here</li><li>The review link uses your verified Place ID &mdash; the Ask-for-a-Review templates in the hub carry this link</li></ul></details>
+  <details class="plat"><summary><b>Pixabay</b> &mdash; <span>Graphics search inside Design Studio.</span></summary><ul><li>Customers search for graphics and clipart in the Design Studio</li><li>It goes through a relay so the key stays private (key rotated Nov 26)</li></ul></details>
   </div>
 </section>
 <footer><p>D.I.M. Bright Ideas LLC &middot; Internal resources</p></footer>
